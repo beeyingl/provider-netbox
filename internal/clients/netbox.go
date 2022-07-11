@@ -19,6 +19,7 @@ package clients
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/pkg/errors"
@@ -27,7 +28,7 @@ import (
 
 	"github.com/crossplane/terrajet/pkg/terraform"
 
-	"github.com/crossplane-contrib/provider-jet-template/apis/v1alpha1"
+	"github.com/crossplane-contrib/provider-jet-netbox/apis/v1alpha1"
 )
 
 const (
@@ -36,7 +37,15 @@ const (
 	errGetProviderConfig    = "cannot get referenced ProviderConfig"
 	errTrackUsage           = "cannot track ProviderConfig usage"
 	errExtractCredentials   = "cannot extract credentials"
-	errUnmarshalCredentials = "cannot unmarshal template credentials as JSON"
+	errUnmarshalCredentials = "cannot unmarshal netbox credentials as JSON"
+
+	keyServerUrl = "server_url"
+	keyApiToken  = "api_token"
+
+	envToken            = "NETBOX_API_TOKEN"
+	envServerUrl        = "NETBOX_SERVER_URL"
+	envAllowInsecure    = "NETBOX_ALLOW_INSECURE_HTTPS"
+	envSkipVersionCheck = "NETBOX_SKIP_VERSION_CHECK"
 )
 
 // TerraformSetupBuilder builds Terraform a terraform.SetupFn function which
@@ -69,8 +78,8 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 		if err != nil {
 			return ps, errors.Wrap(err, errExtractCredentials)
 		}
-		templateCreds := map[string]string{}
-		if err := json.Unmarshal(data, &templateCreds); err != nil {
+		netboxCreds := map[string]string{}
+		if err := json.Unmarshal(data, &netboxCreds); err != nil {
 			return ps, errors.Wrap(err, errUnmarshalCredentials)
 		}
 
@@ -79,14 +88,31 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 		// credentials via the environment variables. You should specify
 		// credentials via the Terraform main.tf.json instead.
 		/*ps.Env = []string{
-			fmt.Sprintf("%s=%s", "HASHICUPS_USERNAME", templateCreds["username"]),
-			fmt.Sprintf("%s=%s", "HASHICUPS_PASSWORD", templateCreds["password"]),
+			fmt.Sprintf("%s=%s", "HASHICUPS_USERNAME", netboxCreds["username"]),
+			fmt.Sprintf("%s=%s", "HASHICUPS_PASSWORD", netboxCreds["password"]),
 		}*/
 		// set credentials in Terraform provider configuration
 		/*ps.Configuration = map[string]interface{}{
-			"username": templateCreds["username"],
-			"password": templateCreds["password"],
+			"username": netboxCreds["username"],
+			"password": netboxCreds["password"],
 		}*/
+
+		ps.Configuration = map[string]interface{}{}
+		if v, ok := netboxCreds[keyServerUrl]; ok {
+			ps.Configuration[keyServerUrl] = v
+		}
+		if v, ok := netboxCreds[keyApiToken]; ok {
+			ps.Configuration[keyApiToken] = v
+		}
+
+		// set environment variables for sensitive provider configuration
+		ps.Env = []string{
+			fmt.Sprintf("%s=%s", envToken, netboxCreds[keyApiToken]),
+			fmt.Sprintf("%s=%s", envServerUrl, netboxCreds[keyServerUrl]),
+			fmt.Sprintf("%s=%t", envAllowInsecure, true),
+			fmt.Sprintf("%s=%t", envSkipVersionCheck, true),
+		}
+
 		return ps, nil
 	}
 }

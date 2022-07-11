@@ -5,18 +5,18 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.8.0
   creationTimestamp: null
-  name: resources.null.template.jet.crossplane.io
+  name: addresses.ipaddress.netbox.jet.crossplane.io
 spec:
-  group: null.template.jet.crossplane.io
+  group: ipaddress.netbox.jet.crossplane.io
   names:
     categories:
     - crossplane
     - managed
-    - templatejet
-    kind: Resource
-    listKind: ResourceList
-    plural: resources
-    singular: resource
+    - netboxjet
+    kind: Address
+    listKind: AddressList
+    plural: addresses
+    singular: address
   scope: Cluster
   versions:
   - additionalPrinterColumns:
@@ -35,7 +35,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: Resource is the Schema for the Resources API
+        description: Address is the Schema for the Addresss API
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -50,7 +50,7 @@ spec:
           metadata:
             type: object
           spec:
-            description: ResourceSpec defines the desired state of Resource
+            description: AddressSpec defines the desired state of Address
             properties:
               deletionPolicy:
                 default: Delete
@@ -63,13 +63,27 @@ spec:
                 type: string
               forProvider:
                 properties:
-                  triggers:
-                    additionalProperties:
+                  description:
+                    type: string
+                  dnsName:
+                    type: string
+                  interfaceId:
+                    type: number
+                  ipAddress:
+                    type: string
+                  status:
+                    type: string
+                  tags:
+                    items:
                       type: string
-                    description: A map of arbitrary strings that, when changed, will
-                      force the null resource to be replaced, re-running any associated
-                      provisioners.
-                    type: object
+                    type: array
+                  tenantId:
+                    type: number
+                  vrfId:
+                    type: number
+                required:
+                - ipAddress
+                - status
                 type: object
               providerConfigRef:
                 default:
@@ -168,7 +182,7 @@ spec:
             - forProvider
             type: object
           status:
-            description: ResourceStatus defines the observed state of Resource.
+            description: AddressStatus defines the observed state of Address.
             properties:
               atProvider:
                 properties:
