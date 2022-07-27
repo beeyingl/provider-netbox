@@ -19,6 +19,8 @@ limitations under the License.
 package v1alpha1
 
 import (
+	"fmt"
+
 	"github.com/pkg/errors"
 
 	"github.com/crossplane/terrajet/pkg/resource"
@@ -37,6 +39,8 @@ func (tr *Address) GetConnectionDetailsMapping() map[string]string {
 
 // GetObservation of this Address
 func (tr *Address) GetObservation() (map[string]interface{}, error) {
+	fmt.Println("GetObservation BYLOBYLOLOsBYLOBYLOLOsBYLOBYLOLOsBYLOBYLOLOsBYLOBYLOLOsBYLOBYLOLOsBYLOBYLOLOsBYLOBYLOLOsBYLOBYLOLOsBYLOBYLOLOsBYLOBYLOLOsBYLOBYLOLOs")
+	fmt.Println(tr.Status.AtProvider)
 	o, err := json.TFParser.Marshal(tr.Status.AtProvider)
 	if err != nil {
 		return nil, err
@@ -47,6 +51,8 @@ func (tr *Address) GetObservation() (map[string]interface{}, error) {
 
 // SetObservation for this Address
 func (tr *Address) SetObservation(obs map[string]interface{}) error {
+	fmt.Println("SetObservation BYLOBYLOLOsBYLOBYLOLOsBYLOBYLOLOsBYLOBYLOLOsBYLOBYLOLOsBYLOBYLOLOsBYLOBYLOLOsBYLOBYLOLOsBYLOBYLOLOsBYLOBYLOLOsBYLOBYLOLOsBYLOBYLOLOs")
+	fmt.Println(obs)
 	p, err := json.TFParser.Marshal(obs)
 	if err != nil {
 		return err
@@ -84,6 +90,8 @@ func (tr *Address) SetParameters(params map[string]interface{}) error {
 // LateInitialize this Address using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *Address) LateInitialize(attrs []byte) (bool, error) {
+	fmt.Println("LateInitialize BYLOBYLOLOsBYLOBYLOLOsBYLOBYLOLOsBYLOBYLOLOsBYLOBYLOLOsBYLOBYLOLOsBYLOBYLOLOsBYLOBYLOLOsBYLOBYLOLOsBYLOBYLOLOsBYLOBYLOLOsBYLOBYLOLOs")
+	fmt.Println(string(attrs))
 	params := &AddressParameters{}
 	if err := json.TFParser.Unmarshal(attrs, params); err != nil {
 		return false, errors.Wrap(err, "failed to unmarshal Terraform state parameters for late-initialization")

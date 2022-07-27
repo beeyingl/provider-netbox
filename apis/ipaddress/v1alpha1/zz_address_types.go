@@ -19,6 +19,7 @@ limitations under the License.
 package v1alpha1
 
 import (
+	"encoding/json"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
@@ -27,6 +28,19 @@ import (
 
 type AddressObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+	DNSName *string `json:"dnsName,omitempty" tf:"dns_name,omitempty"`
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+	IPAddress *string `json:"ipAddress" tf:"ip_address,omitempty"`
+	InterfaceID *float64 `json:"interfaceId,omitempty" tf:"interface_id,omitempty"`
+	Status *string `json:"status" tf:"status,omitempty"`
+	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
+	TenantID *float64 `json:"tenantId,omitempty" tf:"tenant_id,omitempty"`
+	VrfID *float64 `json:"vrfId,omitempty" tf:"vrf_id,omitempty"`
+}
+
+func (ao AddressObservation) String() string {
+    json, _ := json.MarshalIndent(ao, "", "\t")
+	return string(json)
 }
 
 type AddressParameters struct {

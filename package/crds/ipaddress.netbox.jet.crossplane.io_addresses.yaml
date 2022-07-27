@@ -188,6 +188,24 @@ spec:
                 properties:
                   id:
                     type: string
+                  description:
+                    type: string
+                  dnsName:
+                    type: string
+                  interfaceId:
+                    type: number
+                  ipAddress:
+                    type: string
+                  status:
+                    type: string
+                  tags:
+                    items:
+                      type: string
+                    type: array
+                  tenantId:
+                    type: number
+                  vrfId:
+                    type: number
                 type: object
               conditions:
                 description: Conditions of the resource.
