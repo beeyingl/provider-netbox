@@ -1,0 +1,11 @@
+apiVersion: resource.netbox.jet.crossplane.io/v1alpha1
+kind: Resource
+metadata:
+  name: manufacturerresource1
+  annotations:
+    terraformResourceType: netbox_manufacturer
+spec:
+  forProvider:    
+    name: "manufacturertest1"
+  providerConfigRef:
+    name: default

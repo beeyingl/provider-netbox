@@ -23,8 +23,8 @@ import (
 
 	address "github.com/crossplane-contrib/provider-jet-netbox/internal/controller/ipaddress/address"
 	manufacturer "github.com/crossplane-contrib/provider-jet-netbox/internal/controller/manufacturer/manufacturer"
-	platform "github.com/crossplane-contrib/provider-jet-netbox/internal/controller/platform/platform"
 	providerconfig "github.com/crossplane-contrib/provider-jet-netbox/internal/controller/providerconfig"
+	resource "github.com/crossplane-contrib/provider-jet-netbox/internal/controller/resource/resource"
 )
 
 // Setup creates all controllers with the supplied logger and adds them to
@@ -33,7 +33,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		address.Setup,
 		manufacturer.Setup,
-		platform.Setup,
+		resource.Setup,
 		providerconfig.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {

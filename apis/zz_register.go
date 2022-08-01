@@ -24,7 +24,7 @@ import (
 
 	v1alpha1 "github.com/crossplane-contrib/provider-jet-netbox/apis/ipaddress/v1alpha1"
 	v1alpha1manufacturer "github.com/crossplane-contrib/provider-jet-netbox/apis/manufacturer/v1alpha1"
-	v1alpha1platform "github.com/crossplane-contrib/provider-jet-netbox/apis/platform/v1alpha1"
+	v1alpha1resource "github.com/crossplane-contrib/provider-jet-netbox/apis/resource/v1alpha1"
 	v1alpha1apis "github.com/crossplane-contrib/provider-jet-netbox/apis/v1alpha1"
 )
 
@@ -33,7 +33,7 @@ func init() {
 	AddToSchemes = append(AddToSchemes,
 		v1alpha1.SchemeBuilder.AddToScheme,
 		v1alpha1manufacturer.SchemeBuilder.AddToScheme,
-		v1alpha1platform.SchemeBuilder.AddToScheme,
+		v1alpha1resource.SchemeBuilder.AddToScheme,
 		v1alpha1apis.SchemeBuilder.AddToScheme,
 	)
 }

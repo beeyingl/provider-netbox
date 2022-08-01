@@ -5,18 +5,18 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.8.0
   creationTimestamp: null
-  name: platforms.platform.netbox.jet.crossplane.io
+  name: resources.resource.netbox.jet.crossplane.io
 spec:
-  group: platform.netbox.jet.crossplane.io
+  group: resource.netbox.jet.crossplane.io
   names:
     categories:
     - crossplane
     - managed
     - netboxjet
-    kind: Platform
-    listKind: PlatformList
-    plural: platforms
-    singular: platform
+    kind: Resource
+    listKind: ResourceList
+    plural: resources
+    singular: resource
   scope: Cluster
   versions:
   - additionalPrinterColumns:
@@ -35,7 +35,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: Platform is the Schema for the Platforms API
+        description: Resource is the Schema for the Resource API
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -50,7 +50,7 @@ spec:
           metadata:
             type: object
           spec:
-            description: PlatformSpec defines the desired state of Platform
+            description: ResourceSpec defines the desired state of Resource
             properties:
               deletionPolicy:
                 default: Delete
@@ -62,14 +62,8 @@ spec:
                 - Delete
                 type: string
               forProvider:
-                properties:
-                  name:
-                    type: string
-                  slug:
-                    type: string
-                required:
-                - name
                 type: object
+                x-kubernetes-preserve-unknown-fields: true
               providerConfigRef:
                 default:
                   name: default
@@ -167,7 +161,7 @@ spec:
             - forProvider
             type: object
           status:
-            description: PlatformStatus defines the observed state of Platform.
+            description: ResourceStatus defines the observed state of Resource.
             properties:
               atProvider:
                 properties:

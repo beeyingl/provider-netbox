@@ -21,15 +21,16 @@ package v1alpha1
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"k8s.io/apimachinery/pkg/runtime"
 
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type PlatformObservation struct {
+type ResourceObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 }
 
-type PlatformParameters struct {
+type ResourceParameters struct {
 
 	// +kubebuilder:validation:Required
 	Name *string `json:"name" tf:"name,omitempty"`
@@ -38,51 +39,52 @@ type PlatformParameters struct {
 	Slug *string `json:"slug,omitempty" tf:"slug,omitempty"`
 }
 
-// PlatformSpec defines the desired state of Platform
-type PlatformSpec struct {
+// ResourceSpec defines the desired state of Resource
+type ResourceSpec struct {
 	v1.ResourceSpec `json:",inline"`
-	ForProvider     PlatformParameters `json:"forProvider"`
+	/*ForProvider     PlatformParameters `json:"forProvider"`*/
+	ForProvider     runtime.RawExtension `json:"forProvider,omitempty"`
 }
 
-// PlatformStatus defines the observed state of Platform.
-type PlatformStatus struct {
+// ResourceStatus defines the observed state of Resource.
+type ResourceStatus struct {
 	v1.ResourceStatus `json:",inline"`
-	AtProvider        PlatformObservation `json:"atProvider,omitempty"`
+	AtProvider        ResourceObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// Platform is the Schema for the Platforms API
+// Resource is the Schema for the Resource API
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
 // +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,netboxjet}
-type Platform struct {
+type Resource struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              PlatformSpec   `json:"spec"`
-	Status            PlatformStatus `json:"status,omitempty"`
+	Spec              ResourceSpec   `json:"spec"`
+	Status            ResourceStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// PlatformList contains a list of Platforms
-type PlatformList struct {
+// ResourceList contains a list of Resources
+type ResourceList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []Platform `json:"items"`
+	Items           []Resource `json:"items"`
 }
 
 // Repository type metadata.
 var (
-	Platform_Kind             = "Platform"
-	Platform_GroupKind        = schema.GroupKind{Group: CRDGroup, Kind: Platform_Kind}.String()
-	Platform_KindAPIVersion   = Platform_Kind + "." + CRDGroupVersion.String()
-	Platform_GroupVersionKind = CRDGroupVersion.WithKind(Platform_Kind)
+	Resource_Kind             = "Resource"
+	Resource_GroupKind        = schema.GroupKind{Group: CRDGroup, Kind: Resource_Kind}.String()
+	Resource_KindAPIVersion   = Resource_Kind + "." + CRDGroupVersion.String()
+	Resource_GroupVersionKind = CRDGroupVersion.WithKind(Resource_Kind)
 )
 
 func init() {
-	SchemeBuilder.Register(&Platform{}, &PlatformList{})
+	SchemeBuilder.Register(&Resource{}, &ResourceList{})
 }
