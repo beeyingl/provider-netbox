@@ -25,6 +25,7 @@ import (
 
 	"github.com/crossplane-contrib/provider-jet-netbox/config/ipaddress"
 	"github.com/crossplane-contrib/provider-jet-netbox/config/manufacturer"
+	"github.com/crossplane-contrib/provider-jet-netbox/config/platform"
 )
 
 const (
@@ -49,12 +50,14 @@ func GetProvider() *tjconfig.Provider {
 		tjconfig.WithIncludeList([]string{
 			"netbox_ip_address$",
 			"netbox_manufacturer$",
+			"netbox_platform$",
 		}))
 
 	for _, configure := range []func(provider *tjconfig.Provider){
 		// add custom config functions
 		ipaddress.Configure,
 		manufacturer.Configure,
+		platform.Configure,
 	} {
 		configure(pc)
 	}
