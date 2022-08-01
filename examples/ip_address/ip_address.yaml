@@ -1,11 +1,11 @@
 apiVersion: ipaddress.netbox.jet.crossplane.io/v1alpha1
 kind: Address
 metadata:
-  name: hello-crossplane
+  name: address1
 spec:
   forProvider:
     description: "Managed with Crossplane Netbox Provider (generated with Terrajet)"
-    ipAddress: "10.0.0.51/24"
+    ipAddress: "10.0.0.50/24"
     status: "reserved"
   providerConfigRef:
     name: default

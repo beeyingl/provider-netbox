@@ -22,6 +22,7 @@ import (
 	"github.com/crossplane/terrajet/pkg/controller"
 
 	address "github.com/crossplane-contrib/provider-jet-netbox/internal/controller/ipaddress/address"
+	manufacturer "github.com/crossplane-contrib/provider-jet-netbox/internal/controller/manufacturer/manufacturer"
 	providerconfig "github.com/crossplane-contrib/provider-jet-netbox/internal/controller/providerconfig"
 )
 
@@ -30,6 +31,7 @@ import (
 func Setup(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		address.Setup,
+		manufacturer.Setup,
 		providerconfig.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {

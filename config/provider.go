@@ -24,6 +24,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	"github.com/crossplane-contrib/provider-jet-netbox/config/ip_address"
+	"github.com/crossplane-contrib/provider-jet-netbox/config/manufacturer"
 )
 
 const (
@@ -47,11 +48,13 @@ func GetProvider() *tjconfig.Provider {
 		tjconfig.WithDefaultResourceFn(defaultResourceFn),
 		tjconfig.WithIncludeList([]string{
 			"netbox_ip_address$",
+			"netbox_manufacturer$",
 		}))
 
 	for _, configure := range []func(provider *tjconfig.Provider){
 		// add custom config functions
 		ip_address.Configure,
+		manufacturer.Configure,
 	} {
 		configure(pc)
 	}

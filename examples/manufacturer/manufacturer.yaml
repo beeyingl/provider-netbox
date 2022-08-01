@@ -1,0 +1,9 @@
+apiVersion: manufacturer.netbox.jet.crossplane.io/v1alpha1
+kind: Manufacturer
+metadata:
+  name: manufacturer1
+spec:
+  forProvider:    
+    name: "manufacturertest1"
+  providerConfigRef:
+    name: default
