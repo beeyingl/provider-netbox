@@ -1,4 +1,4 @@
-package ip_address
+package ipaddress
 
 import (
 	"github.com/crossplane/terrajet/pkg/config"

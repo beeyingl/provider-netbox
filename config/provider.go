@@ -23,7 +23,7 @@ import (
 	tjconfig "github.com/crossplane/terrajet/pkg/config"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	"github.com/crossplane-contrib/provider-jet-netbox/config/ip_address"
+	"github.com/crossplane-contrib/provider-jet-netbox/config/ipaddress"
 	"github.com/crossplane-contrib/provider-jet-netbox/config/manufacturer"
 )
 
@@ -53,7 +53,7 @@ func GetProvider() *tjconfig.Provider {
 
 	for _, configure := range []func(provider *tjconfig.Provider){
 		// add custom config functions
-		ip_address.Configure,
+		ipaddress.Configure,
 		manufacturer.Configure,
 	} {
 		configure(pc)

@@ -39,11 +39,11 @@ const (
 	errExtractCredentials   = "cannot extract credentials"
 	errUnmarshalCredentials = "cannot unmarshal netbox credentials as JSON"
 
-	keyServerUrl = "server_url"
-	keyApiToken  = "api_token"
+	keyServerURL = "server_url"
+	keyAPIToken  = "api_token"
 
 	envToken            = "NETBOX_API_TOKEN"
-	envServerUrl        = "NETBOX_SERVER_URL"
+	envServerURL        = "NETBOX_SERVER_URL"
 	envAllowInsecure    = "NETBOX_ALLOW_INSECURE_HTTPS"
 	envSkipVersionCheck = "NETBOX_SKIP_VERSION_CHECK"
 )
@@ -98,17 +98,17 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 		}*/
 
 		ps.Configuration = map[string]interface{}{}
-		if v, ok := netboxCreds[keyServerUrl]; ok {
-			ps.Configuration[keyServerUrl] = v
+		if v, ok := netboxCreds[keyServerURL]; ok {
+			ps.Configuration[keyServerURL] = v
 		}
-		if v, ok := netboxCreds[keyApiToken]; ok {
-			ps.Configuration[keyApiToken] = v
+		if v, ok := netboxCreds[keyAPIToken]; ok {
+			ps.Configuration[keyAPIToken] = v
 		}
 
 		// set environment variables for sensitive provider configuration
 		ps.Env = []string{
-			fmt.Sprintf("%s=%s", envToken, netboxCreds[keyApiToken]),
-			fmt.Sprintf("%s=%s", envServerUrl, netboxCreds[keyServerUrl]),
+			fmt.Sprintf("%s=%s", envToken, netboxCreds[keyAPIToken]),
+			fmt.Sprintf("%s=%s", envServerURL, netboxCreds[keyServerURL]),
 			fmt.Sprintf("%s=%t", envAllowInsecure, true),
 			fmt.Sprintf("%s=%t", envSkipVersionCheck, true),
 		}
